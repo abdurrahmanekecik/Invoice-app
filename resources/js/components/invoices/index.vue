@@ -1,3 +1,27 @@
+<script setup>
+import { onMounted, ref } from 'vue';
+
+let invoices = ref([]);
+let searchInvoice = ref([]);
+onMounted(async () => {
+  getInvoices();
+
+});
+
+const getInvoices = async () => {
+  let response = await axios.get('/api/invoices');
+  invoices.value = response.data.invoices;
+  console.log(invoices.value);
+}
+
+const search = async () => {
+  let response = await axios.get('/api/search-invoice?search=' + searchInvoice.value);
+  console.log(response.data.invoices);
+  invoices.value = response.data.invoices;
+}
+
+</script>
+
  <template>
    <div class="container">
 
@@ -44,7 +68,7 @@
            </div>
            <div class="relative">
              <i class="table--search--input--icon fas fa-search "></i>
-             <input class="table--search--input" type="text" placeholder="Search invoice">
+             <input class="table--search--input" v-model="searchInvoice" @keyup="search()" type="text" placeholder="Search invoice">
            </div>
          </div>
 
@@ -57,14 +81,24 @@
            <p>Total</p>
          </div>
 
+
          <!-- item 1 -->
-         <div class="table--items">
-           <a href="#" class="table--items--transactionId">#093654</a>
-           <p>Jan 18, 9:31am</p>
-           <p>#093654</p>
-           <p>Jonathan Yu</p>
-           <p>Jan 18, 9:31am</p>
-           <p> $ 16,943</p>
+         <div class="table--items" v-for="item in invoices" :key="item.id" v-if="invoices.length > 0">
+           <a href="#" class="table--items--transactionId">#{{ item.id }}</a>
+           <p>{{  item.date }}</p>
+           <p>#{{  item.number }}</p>
+           <p v-if=" item.customer">
+             {{ item.customer.name }}
+           </p>
+            <p v-else>
+
+            </p>
+           <p>{{ item.due_date }}</p>
+           <p> $ {{  item.total  }}</p>
+         </div>
+
+         <div class="table--items" v-else>
+           <p >No invoices found</p>
          </div>
        </div>
 
@@ -75,5 +109,3 @@
    </div>
 
  </template>
- <script setup>
- </script>
