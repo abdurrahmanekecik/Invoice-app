@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Counter;
 use App\Models\Invoice;
+use App\Models\InvoiceItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class InvoiceController extends Controller
 {
@@ -50,7 +52,7 @@ class InvoiceController extends Controller
             'due_date' => date('Y-m-d'),
             'reference' => null,
             'discount' => 0,
-            'term_and_condition' => 'Default Term and Condition',
+            'terms_and_conditions' => 'Default Term and Condition',
             'items' => [
                 [
                     'product_id' => null,
@@ -64,6 +66,33 @@ class InvoiceController extends Controller
 
         return response()->json([
             'formData' => $formData], 200);
+
+
+    }
+
+    public function store(Request $request)
+    {
+        Log::info($request->all());
+        $invoiceItem = $request->input('invoice_item');
+        $invoicedata['sub_total'] = $request->input('sub_total');
+        $invoicedata['total'] = $request->input('total');
+        $invoicedata['customer_id'] = $request->input('customer_id');
+        $invoicedata['number'] = $request->input('number');
+        $invoicedata['date'] = $request->input('date');
+        $invoicedata['due_date'] = $request->input('due_date');
+        $invoicedata['discount'] = $request->input('discount');
+        $invoicedata['reference'] = $request->input('reference');
+        $invoicedata['terms_and_conditions'] = $request->input('term_and_condition');
+
+        $invoice = Invoice::create($invoicedata);
+        foreach ($invoiceItem as $item) {
+            $itemdata['product_id'] = $item->id;
+            $itemdata['invoice_id'] = $item->id;
+            $itemdata['unit_price'] = $item->unit_price;
+            $itemdata['quantity'] = $item->quantity;
+            InvoiceItem::create($itemdata);
+
+        }
 
 
     }
