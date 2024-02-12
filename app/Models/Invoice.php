@@ -20,8 +20,14 @@ class Invoice extends Model
         'number',
         'terms_and_conditions',
     ];
+
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function items()
+    {
+        return $this->hasMany(InvoiceItem::class);
     }
 }

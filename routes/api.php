@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
+Route::get('invoices/{id}', [InvoiceController::class, 'show']);
 Route::get('invoices', [InvoiceController::class, 'index']);
 Route::post('invoices', [InvoiceController::class, 'store']);
 Route::get('search-invoice', [InvoiceController::class, 'search']);

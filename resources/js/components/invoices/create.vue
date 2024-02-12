@@ -89,8 +89,8 @@ const onSave = async () => {
     }
 
     axios.post('/api/invoices', formData).then((response) => {
-    listCart.value = [];
-
+      listCart.value = [];
+      router.push('/');
     }).catch((error) => {
       console.log(error);
     });

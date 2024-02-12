@@ -72,7 +72,6 @@ class InvoiceController extends Controller
 
     public function store(Request $request)
     {
-        Log::info($request->all());
         $invoiceItem = $request->input('invoice_item');
         $invoicedata['sub_total'] = $request->input('sub_total');
         $invoicedata['total'] = $request->input('total');
@@ -85,7 +84,7 @@ class InvoiceController extends Controller
         $invoicedata['terms_and_conditions'] = $request->input('term_and_condition');
 
         $invoice = Invoice::create($invoicedata);
-        foreach ($invoiceItem as $item) {
+        foreach (json_decode($invoiceItem) as $item) {
             $itemdata['product_id'] = $item->id;
             $itemdata['invoice_id'] = $item->id;
             $itemdata['unit_price'] = $item->unit_price;
@@ -95,5 +94,13 @@ class InvoiceController extends Controller
         }
 
 
+    }
+
+    public function show($id)
+    {
+
+        $invoice = Invoice::with('customer', 'items.product')->find($id);
+        return response()->json([
+            'invoice' => $invoice], 200);
     }
 }

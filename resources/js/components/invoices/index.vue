@@ -28,7 +28,8 @@ const newInvoice = async () => {
 
 
 const onShow = async (id) => {
-  router.push('/invoices/' + id);
+  router.push({name: 'invoiceShow', params: {id: id}});
+
 }
 
 
