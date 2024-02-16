@@ -124,8 +124,7 @@ class InvoiceController extends Controller
         $invoice->discount = $request->input('discount');
         $invoice->reference = $request->input('reference');
         $invoice->terms_and_conditions = $request->input('term_and_condition');
-
-        $invoice = Invoice::update($request->all());
+        $invoice->save();
         $invoiceItem = $request->input('invoice_item');
         $invoice->items()->delete();
 

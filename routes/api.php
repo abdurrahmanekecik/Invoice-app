@@ -21,11 +21,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('invoices/create', [InvoiceController::class, 'create']);
 Route::get('invoices/{id}', [InvoiceController::class, 'show']);
 Route::get('invoices', [InvoiceController::class, 'index']);
 Route::post('invoices', [InvoiceController::class, 'store']);
 Route::get('search-invoice', [InvoiceController::class, 'search']);
-Route::get('invoices/create', [InvoiceController::class, 'create']);
 Route::get('invoices/{id}/edit', [InvoiceController::class, 'edit']);
 Route::put('invoices/{id}', [InvoiceController::class, 'update']);
 Route::delete('invoices/{id}', [InvoiceController::class, 'destroy']);

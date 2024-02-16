@@ -97,11 +97,18 @@ const onUpdate = (id) => {
     formData.append('terms_and_conditions', form.value.term_and_condition);
 
 
-    axios.put('/api/invoices/' + id, formData).then((response) => {
-      router.push('/');
-    }).catch((error) => {
-      console.log(error);
-    });
+    axios({
+      method: 'put',
+      url: '/api/invoices/' + id,
+      data: formData,
+      headers: {'Content-Type': 'multipart/form-data'}
+    })
+        .then((response) => {
+          router.push('/');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
   }
 }
@@ -213,7 +220,7 @@ const onUpdate = (id) => {
 
         </div>
         <div>
-          <a class="btn btn-secondary">
+          <a class="btn btn-secondary" @click="onUpdate(form.id)">
             Save
           </a>
         </div>
