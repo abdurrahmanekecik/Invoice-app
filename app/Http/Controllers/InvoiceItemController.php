@@ -60,6 +60,9 @@ class InvoiceItemController extends Controller
      */
     public function destroy(InvoiceItem $invoiceItem)
     {
-        //
+        $invoiceItem->delete();
+        return response()->json([
+            'message' => 'Invoice item deleted successfully'
+        ], 200);
     }
 }

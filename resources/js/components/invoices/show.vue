@@ -1,5 +1,6 @@
 <script setup>
 import {onMounted, ref} from 'vue';
+import router from "@/router/index.js";
 
 let form = ref({id: ''})
 const props = defineProps({
@@ -23,6 +24,15 @@ const print = () => {
   window.print();
 }
 
+const onEdit = (id) => {
+  router.push('/invoices/' + id + '/edit/');
+}
+
+const onDelete = (id) => {
+  axios.delete('/api/invoices/' + id).then(() => {
+    router.push('/invoices');
+  });
+}
 </script>
 <template>
   <div class="container">
@@ -54,7 +64,7 @@ const print = () => {
             </li>
             <li>
               <!-- Select Btn Option -->
-              <button class="selectBtnFlat">
+              <button class="selectBtnFlat" @click="onEdit(form.id)">
                 <i class=" fas fa-reply"></i>
                 Edit
               </button>
@@ -62,7 +72,7 @@ const print = () => {
             </li>
             <li>
               <!-- Select Btn Option -->
-              <button class="selectBtnFlat ">
+              <button class="selectBtnFlat " @click="onDelete(form.id)">
                 <i class=" fas fa-pencil-alt"></i>
                 Delete
               </button>

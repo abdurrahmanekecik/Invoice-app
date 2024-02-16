@@ -3,6 +3,7 @@
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\InvoiceItemController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,5 +26,9 @@ Route::get('invoices', [InvoiceController::class, 'index']);
 Route::post('invoices', [InvoiceController::class, 'store']);
 Route::get('search-invoice', [InvoiceController::class, 'search']);
 Route::get('invoices/create', [InvoiceController::class, 'create']);
+Route::get('invoices/{id}/edit', [InvoiceController::class, 'edit']);
+Route::put('invoices/{id}', [InvoiceController::class, 'update']);
+Route::delete('invoices/{id}', [InvoiceController::class, 'destroy']);
+Route::resource('invoice-items', InvoiceItemController::class);
 Route::resource('customers', CustomerController::class);
 Route::resource('products', ProductController::class);

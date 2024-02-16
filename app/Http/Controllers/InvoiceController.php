@@ -103,4 +103,47 @@ class InvoiceController extends Controller
         return response()->json([
             'invoice' => $invoice], 200);
     }
+
+    public function edit($id)
+    {
+        $invoice = Invoice::with('customer', 'items.product')->find($id);
+        return response()->json([
+            'invoice' => $invoice], 200);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $invoice = Invoice::find($id);
+
+        $invoice->sub_total = $request->input('sub_total');
+        $invoice->total = $request->input('total');
+        $invoice->customer_id = $request->input('customer_id');
+        $invoice->number = $request->input('number');
+        $invoice->date = $request->input('date');
+        $invoice->due_date = $request->input('due_date');
+        $invoice->discount = $request->input('discount');
+        $invoice->reference = $request->input('reference');
+        $invoice->terms_and_conditions = $request->input('term_and_condition');
+
+        $invoice = Invoice::update($request->all());
+        $invoiceItem = $request->input('invoice_item');
+        $invoice->items()->delete();
+
+        foreach (json_decode($invoiceItem) as $item) {
+            $itemdata['product_id'] = $item->product_id;
+            $itemdata['invoice_id'] = $item->id;
+            $itemdata['unit_price'] = $item->unit_price;
+            $itemdata['quantity'] = $item->quantity;
+            InvoiceItem::create($itemdata);
+
+        }
+    }
+
+    public function destroy($id)
+    {
+        $invoice = Invoice::find($id);
+        $invoice->items()->delete();
+        $invoice->delete();
+    }
+
 }
