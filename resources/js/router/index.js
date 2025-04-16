@@ -5,7 +5,7 @@ import notFound from '../components/404.vue';
 import InvoiceCreate from '../components/invoices/create.vue';
 import InvoiceShow from '../components/invoices/show.vue';
 import InvoiceEdit from '../components/invoices/edit.vue';
-
+import Chat from "../components/invoices/chat.vue";
 const routes = [
     {
         path: '/',
@@ -27,6 +27,12 @@ const routes = [
         name: 'InvoiceEdit',
         props: true,
         component: InvoiceEdit
+    },
+    {
+        path: '/chat-ai',
+        name: 'Chat',
+        props: true,
+        component: Chat
     },
     {
         path: '/:pathMatch(.*)*',

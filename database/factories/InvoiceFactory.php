@@ -17,8 +17,8 @@ class InvoiceFactory extends Factory
     public function definition(): array
     {
         return [
-            'number' => $this->faker->unique()->numberBetween(10, 1000),
-        'customer_id' => $this->faker->unique()->numberBetween(1, 20),
+            'number' => $this->faker->unique()->numberBetween(1000000, 9999999),
+        'customer_id' => $this->faker->numberBetween(1, 20),
         'date' => $this->faker->date(),
         'due_date' => $this->faker->date(),
         'reference' => 'REF-'.rand(10,500),

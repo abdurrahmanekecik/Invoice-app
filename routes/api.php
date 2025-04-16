@@ -29,6 +29,9 @@ Route::get('search-invoice', [InvoiceController::class, 'search']);
 Route::get('invoices/{id}/edit', [InvoiceController::class, 'edit']);
 Route::put('invoices/{id}', [InvoiceController::class, 'update']);
 Route::delete('invoices/{id}', [InvoiceController::class, 'destroy']);
+Route::post('send-ai', [InvoiceController::class, 'sendAi']);
+Route::post('chat-ai', [InvoiceController::class, 'chatAi']);
+
 Route::resource('invoice-items', InvoiceItemController::class);
 Route::resource('customers', CustomerController::class);
 Route::resource('products', ProductController::class);

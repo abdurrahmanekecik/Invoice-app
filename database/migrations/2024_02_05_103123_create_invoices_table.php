@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('sub_total');
             $table->string('discount')->default(0);
             $table->string('total');
+            $table->boolean('ai_status')->default(0);
             $table->timestamps();
         });
     }
